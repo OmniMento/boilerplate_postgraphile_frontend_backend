@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  app:
+    build:
+      args:
+        - BACKEND_URL
+      context: .
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - VIRTUAL_HOST=${VIRTUAL_HOST_FRONTEND}
+      - LETSENCRYPT_HOST=${VIRTUAL_HOST_FRONTEND}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - BACKEND_URL
+    networks:
+      - default
+      - proxy
+
+networks:
+    proxy:
+      external: true
